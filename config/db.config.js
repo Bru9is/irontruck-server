@@ -16,3 +16,8 @@ async function dbConnect() {
 }
 
 export default dbConnect
+
+/* useCreateIndex: true,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false, */

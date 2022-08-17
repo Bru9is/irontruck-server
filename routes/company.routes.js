@@ -5,7 +5,6 @@ import User from '../models/User.model.js'
 import generateToken from '../config/jwt.config.js';
 import isAuthenticated from '../middlewares/isAuthenticated.js'
 import attachCurrentUser from '../middlewares/attachCurrentUser.js';
-import { cnpj } from 'cpf-cnpj-validator';
 
 const salt_rounds = process.env.SALT_ROUNDS;
 
@@ -13,14 +12,15 @@ const userRouter = Router()
 
 // Crud (CREATE) - HTTP POST
 // Criar um novo usuário
-userRouter.post("/user-signup", async (req, res) => {
+userRouter.post("/signup", async (req, res) => {
   // Requisições do tipo POST tem uma propriedade especial chamada body, que carrega a informação enviada pelo cliente
   console.log(req.body);
 
   try {
     // Recuperar a senha que está vindo do corpo da requisição
-    const { password, role, cpf, cnpj } = req.body;
+    const { password } = req.body;
 
+    // Verifica se a senha não está em branco ou se a senha não é complexa o suficiente
     if (
       !password ||
       !password.match(
@@ -83,7 +83,7 @@ userRouter.post("/login", async (req, res) => {
           name: user.name,
           email: user.email,
           _id: user._id,
-          
+          role: user.role,
         },
         token,
       });
