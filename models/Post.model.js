@@ -7,11 +7,10 @@ const postSchema = new Schema({
     destination: { type: String, required: true },
     truckType: { 
         type: String,
-        enum: ['Small', 'Middle', 'Large'], //perguntar como colocar mais de uma escolha
+        enum: ['small', 'middle', 'large'],
         required : true 
     },
     
-
   });
 
 const Post = model('Post', postSchema)
