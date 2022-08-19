@@ -21,7 +21,8 @@ const userSchema = new Schema({
   }, 
    phone: { type: String, required: true, trim: true },   */
    role: { type: String, enum: ['user', 'company'], required: true },
-   document: { type: String, required: true, trim: true } //checar validação
+   document: { type: String, required: true, trim: true }, //checar validação
+   postIds: [{ type: Schema.Types.ObjectId, ref: "Post" }]
 });
 
 const User = model("User", userSchema);

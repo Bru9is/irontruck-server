@@ -11,7 +11,6 @@ const salt_rounds = process.env.SALT_ROUNDS;
 
 const userRouter = Router()
 
-
 userRouter.post("/signup", async (req, res) => {
 
   try {
@@ -92,5 +91,19 @@ userRouter.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
     return res.status(500).json({ msg: JSON.stringify(err) });
   }
 });
+
+userRouter.put("/edit-profile", isAuthenticated, attachCurrentUser, async (req, res) => {
+    const id = req.currentUser._id;
+    const editedUser = req.body;
+    if (!editedUser) return res.status(422).json({ msg: "Please provide a user to edit" }) 
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      { $set: editedUser },
+      {
+        new: true,
+      }
+    );
+    return res.status(200).json(user); 
+  });
 
 export default userRouter;
