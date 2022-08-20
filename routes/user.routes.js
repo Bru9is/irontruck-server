@@ -5,16 +5,15 @@ import User from '../models/User.model.js'
 import generateToken from '../config/jwt.config.js';
 import isAuthenticated from '../middlewares/isAuthenticated.js'
 import attachCurrentUser from '../middlewares/attachCurrentUser.js';
-import { cnpj } from 'cpf-cnpj-validator';
+import { cnpj, cpf } from 'cpf-cnpj-validator';
 
 const salt_rounds = process.env.SALT_ROUNDS;
-
 const userRouter = Router()
 
 userRouter.post("/signup", async (req, res) => {
 
   try {
-    const { password, role, cpf, cnpj } = req.body;
+    const { password, role, document } = req.body;
 
     if (
       !password ||
@@ -28,19 +27,17 @@ userRouter.post("/signup", async (req, res) => {
     }
 
     const salt = bcrypt.genSaltSync(+salt_rounds);
-
     const hashedPassword = bcrypt.hashSync(password, salt);
 
     const result = await User.create({
       ...req.body,
       passwordHash: hashedPassword,
     });
-
     return res.status(201).json(result);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ msg: JSON.stringify(err) });
-  }
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ msg: JSON.stringify(err) });
+    }
 });
 
 userRouter.post("/login", async (req, res) => {
@@ -49,9 +46,7 @@ userRouter.post("/login", async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res
-        .status(400)
-        .json({ msg: "This email is not yet registered in our website;" });
+      return res.status(400).json({ msg: "This email is not yet registered in our website;" });
     }
 
     if (bcrypt.compareSync(password, user.passwordHash)) {
@@ -62,7 +57,6 @@ userRouter.post("/login", async (req, res) => {
           name: user.name,
           email: user.email,
           _id: user._id,
-          
         },
         token,
       });
@@ -76,8 +70,6 @@ userRouter.post("/login", async (req, res) => {
 });
 
 userRouter.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
-  console.log(req.headers);
-
   try {
     const loggedInUser = req.currentUser;
 

@@ -11,7 +11,6 @@ const postSchema = new Schema({
         enum: ['small', 'middle', 'large'],
         required : true 
     },
-    
   });
 
 const Post = model('Post', postSchema)
