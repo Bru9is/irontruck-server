@@ -15,10 +15,10 @@ const userSchema = new Schema({
   passwordHash: { type: String, required: true },
     address: { 
     street: { type: String, required: true, trim: true },
-    number: { type: Number, required: true, trim: true },
+    number: { type: String, required: true, trim: true },
     city: { type: String, required: true, trim: true },
     state: { type: String, required: true, trim: true },
-    zip: { type: Number, required: true, trim: true }, 
+    zip: { type: String, required: true, trim: true }, 
   }, 
    phone: { type: String, required: true, trim: true },
    role: { type: String, enum: ['user', 'company'], required: true },
