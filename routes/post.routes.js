@@ -26,6 +26,7 @@ postRouter.post('/new-post', isAuthenticated, attachCurrentUser, async (req, res
 postRouter.get('/all-posts', isAuthenticated, async (req, res) => {
     try {
         const allPosts = await Post.find()
+        
         return res.status(200).json(allPosts)
     } catch (err) {
         console.log(err)
