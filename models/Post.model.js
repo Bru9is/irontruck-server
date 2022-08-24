@@ -11,6 +11,11 @@ const postSchema = new Schema({
         enum: ['small', 'middle', 'large'],
         required : true 
     },
+    boxing: {type: Boolean},
+    unboxing: {type: Boolean},
+    material: {type: Boolean},
+    comment: {type: String},
+    floor: {type: Number}
   });
 
 const Post = model('Post', postSchema)
