@@ -23,11 +23,33 @@ postRouter.post('/new-post', isAuthenticated, attachCurrentUser, async (req, res
     }
 })
 
+/* postRouter.put('/company-post/:postId', isAuthenticated, attachCurrentUser, async (req, res) => {
+    try{
+        if (user.role === 'company') {
+            const getPost = await Post.findOneAndUpdate({_id: postId}, {push})
+            return res.status(201).json(post)
+        }
+        else return res.status(401).json({ msg: 'Only users can post' });
+    }
+}) */
+
 postRouter.get('/all-posts', isAuthenticated, async (req, res) => {
     try {
         const allPosts = await Post.find()
         
         return res.status(200).json(allPosts)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ msg: JSON.stringify(err) });
+    }
+})
+
+postRouter.get('/user-posts', isAuthenticated, attachCurrentUser, async (req, res) => {
+    try {
+        const user = req.currentUser
+        const userPosts = await Post.find({userId: user.id})
+        
+        return res.status(200).json(userPosts)
     } catch (err) {
         console.log(err)
         return res.status(500).json({ msg: JSON.stringify(err) });
