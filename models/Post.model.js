@@ -16,7 +16,8 @@ const postSchema = new Schema({
     unboxing: {type: Boolean},
     material: {type: Boolean},
     comment: {type: String},
-    floor: {type: Number}
+    floors: {type: Number},
+    active: { type: Boolean, default: true}
   });
 
 const Post = model('Post', postSchema)
