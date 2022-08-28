@@ -46,7 +46,9 @@ userRouter.post("/login", async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ msg: "This email is not yet registered in our website;" });
+      return ( 
+        res.status(400).json({ msg: "This email is not yet registered in our website;" })
+      )
     }
 
     if (bcrypt.compareSync(password, user.passwordHash)) {
@@ -86,6 +88,7 @@ userRouter.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
 });
 
 userRouter.put("/edit-profile", isAuthenticated, attachCurrentUser, async (req, res) => {
+    
     const id = req.currentUser._id;
     const editedUser = req.body;
     if (!editedUser) return res.status(422).json({ msg: "Please provide a user to edit" }) 
