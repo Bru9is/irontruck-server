@@ -88,9 +88,10 @@ userRouter.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
 });
 
 userRouter.put("/edit-profile", isAuthenticated, attachCurrentUser, async (req, res) => {
-    
     const id = req.currentUser._id;
     const editedUser = req.body;
+
+    console.log('edited user', editedUser)
     if (!editedUser) return res.status(422).json({ msg: "Please provide a user to edit" }) 
     const user = await User.findOneAndUpdate(
       { _id: id },

@@ -4,7 +4,6 @@ import cors from 'cors'
 import dbConnect from './config/db.config.js'
 import userRouter from './routes/user.routes.js'
 import postRouter from './routes/post.routes.js'
-import reviewRouter from './routes/review.routes.js'
 import proposalRouter from './routes/proposal.routes.js'
 import companyRouter from './routes/company.routes.js'
 
@@ -17,7 +16,6 @@ app.use(cors({ origin: process.env.REACT_APP_URL }));
 
 app.use(userRouter);
 app.use(postRouter)
-app.use(reviewRouter)
 app.use(proposalRouter)
 app.use(companyRouter)
 app.listen(Number(process.env.PORT), () =>
