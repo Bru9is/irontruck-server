@@ -55,6 +55,17 @@ postRouter.get('/user-posts', isAuthenticated, attachCurrentUser, async (req, re
     }
 })
 
+postRouter.get('/user-posts/:postId', isAuthenticated, attachCurrentUser, async (req, res) => {
+    try {
+        const { postId } = req.params;
+        const foundPost = await Post.findOne({_id: postId})
+        
+        return res.status(200).json(foundPost)
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ msg: JSON.stringify(err) });
+    }
+})
 
 
 postRouter.put("/edit-post/:postId", isAuthenticated, attachCurrentUser, async (req, res) => {
