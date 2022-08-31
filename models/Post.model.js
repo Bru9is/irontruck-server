@@ -17,7 +17,11 @@ const postSchema = new Schema({
     material: {type: Boolean},
     comment: {type: String},
     floors: {type: Number},
-    active: { type: Boolean, default: true}
+    status: { type: String,
+              enum: ['active', 'inactive', 'canceled'],
+              required : true,
+              default: 'active'
+    }, 
   });
 
 const Post = model('Post', postSchema)

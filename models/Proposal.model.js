@@ -7,6 +7,7 @@ const proposalSchema = new Schema({
     post: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
     total: { type: Number, required: true},
     status: {type: String, enum: ['pending', 'accepted', 'rejected'], default: 'pending' },
+    acceptedAt: { type: Date},
   }, {timestamps: true});
 
 const Proposal = model('Proposal', proposalSchema)
