@@ -43,10 +43,10 @@ proposalRouter.get('/:currentPostId/all-proposals', isAuthenticated, attachCurre
 proposalRouter.put('/:proposalId/accept', isAuthenticated, attachCurrentUser, async (req, res)  => {
     try {
         const { proposalId } = req.params
-        const foundProposal = await Proposal.findOneAndUpdate({_id : proposalId}, {status: 'accepted'}, {new:true} )
+        const foundProposal = await Proposal.findOneAndUpdate({_id : proposalId}, {status: 'accepted', acceptedAt: new Date()}, {new:true} )
 
         const postId = foundProposal.post._id
-        await Post.findOneAndUpdate({_id: postId}, {active: 'false'})
+        await Post.findOneAndUpdate({_id: postId}, {status: 'inactive'})
         await Proposal.updateMany({post: postId, status: 'pending'}, {status: 'rejected'})
 
         return res.status(200).json(foundProposal)
@@ -55,8 +55,6 @@ proposalRouter.put('/:proposalId/accept', isAuthenticated, attachCurrentUser, as
         console.log(err)
         return res.status(500).json({ msg: JSON.stringify(err) });
     }
-
-    
 })
 
 proposalRouter.get('/:proposalId/accept', isAuthenticated, attachCurrentUser, async (req, res)  => {
@@ -69,8 +67,6 @@ proposalRouter.get('/:proposalId/accept', isAuthenticated, attachCurrentUser, as
         console.log(err)
         return res.status(500).json({ msg: JSON.stringify(err) });
     }
-
-    
 })
 
 export default proposalRouter
