@@ -1,8 +1,8 @@
 import { Router } from 'express'
-
 import isAuthenticated from '../middlewares/isAuthenticated.js'
 import attachCurrentUser from '../middlewares/attachCurrentUser.js';
 import Post from '../models/Post.model.js'
+import Proposal from '../models/Proposal.model.js'
 
 const postRouter = Router()
 
@@ -95,6 +95,8 @@ postRouter.delete("/delete-post/:postId", isAuthenticated, attachCurrentUser, as
 
         if (foundPost && foundPost.userId.toString() === userId.toString()) {
                 const deletedPost = await Post.findOneAndUpdate({_id: postId}, {status: "canceled"})
+                const foundProposals = await Proposal.updateMany({post: postId}, {status: "rejected"})
+
                 return res.status(204).json()
             } else {
                 return res.status(401).json({ msg: 'You are not authorized to delete this post or the post doesn´t exist' })
