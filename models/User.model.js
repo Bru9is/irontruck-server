@@ -3,7 +3,6 @@ import {cpf, cnpj} from 'cpf-cnpj-validator'
 const { Schema, model } = mongoose
 
 const userSchema = new Schema({
-  
   name: { type: String, required: true, trim: true },
   email: {
     type: String,
@@ -13,7 +12,7 @@ const userSchema = new Schema({
     lowercase: true,
   },
   passwordHash: { type: String, required: true },
-    address: { 
+  address: { 
     street: { type: String, required: true, trim: true },
     number: { type: String, required: true, trim: true },
     city: { type: String, required: true, trim: true },
@@ -34,6 +33,7 @@ const userSchema = new Schema({
     trim: true, 
     unique: true 
   }, 
+   imageUrl: { type: String },
    postIds: [{ type: Schema.Types.ObjectId, ref: "Post" }],
    companyIds: [{ type: Schema.Types.ObjectId, ref: "User" }],
    reviewIds: [{ type: Schema.Types.ObjectId, ref: "Review" }],

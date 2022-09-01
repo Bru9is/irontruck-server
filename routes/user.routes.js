@@ -1,14 +1,14 @@
 import { Router } from 'express'
 import bcrypt from 'bcryptjs'
-
+import fileUpload from '../config/cloudinary.config.js';
 import User from '../models/User.model.js'
 import generateToken from '../config/jwt.config.js';
 import isAuthenticated from '../middlewares/isAuthenticated.js'
 import attachCurrentUser from '../middlewares/attachCurrentUser.js';
-import { cnpj, cpf } from 'cpf-cnpj-validator';
 
 const salt_rounds = process.env.SALT_ROUNDS;
 const userRouter = Router()
+
 
 userRouter.post("/signup", async (req, res) => {
 
@@ -102,5 +102,20 @@ userRouter.put("/edit-profile", isAuthenticated, attachCurrentUser, async (req, 
     );
     return res.status(200).json(user); 
   });
+
+// POST "/api/upload" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
+userRouter.post("/user/upload", fileUpload.single("imageUrl"), async (req, res) => {
+   
+  try {
+    if(!req.file) {
+        return res.status(422).json({ error: 'No file uploaded.' })
+    }
+
+    return res.status(200).json({filePath: req.file.path})
+} catch (err) {
+    console.log(err)
+    return res.status(500).json({ error: 'Internal server error.'})
+}
+});
 
 export default userRouter;
