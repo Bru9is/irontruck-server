@@ -22,7 +22,7 @@ const postSchema = new Schema({
               required : true,
               default: 'active'
     }, 
-  });
+  })
 
-const Post = model('Post', postSchema)
+  const Post = model('Post', postSchema)
 export default Post

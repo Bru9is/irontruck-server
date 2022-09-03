@@ -32,7 +32,6 @@ proposalRouter.get('/:currentPostId/all-proposals', isAuthenticated, attachCurre
         const { currentPostId } = req.params
 
         const postProposals = await Proposal.find({post : currentPostId}).populate('post').populate('company')
-        console.log(postProposals)
         return res.status(200).json(postProposals)
     } catch (err) {
         console.log(err)

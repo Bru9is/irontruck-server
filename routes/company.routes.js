@@ -11,7 +11,6 @@ companyRouter.get('/company/proposals', isAuthenticated, attachCurrentUser, asyn
         const companyId = req.currentUser._id
 
         const companyProposals = await Proposal.find({company: companyId}).populate('post')
-        console.log(companyProposals)
         return res.status(200).json(companyProposals)
 
     } catch (err) {

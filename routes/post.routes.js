@@ -23,16 +23,6 @@ postRouter.post('/new-post', isAuthenticated, attachCurrentUser, async (req, res
     }
 })
 
-/* postRouter.put('/company-post/:postId', isAuthenticated, attachCurrentUser, async (req, res) => {
-    try{
-        if (user.role === 'company') {
-            const getPost = await Post.findOneAndUpdate({_id: postId}, {push})
-            return res.status(201).json(post)
-        }
-        else return res.status(401).json({ msg: 'Only users can post' });
-    }
-}) */
-
 postRouter.get('/all-posts', isAuthenticated, async (req, res) => {
     try {
         const allPosts = await Post.find( {$and: [req.query, {status: {$ne: 'canceled'} } ] } )
