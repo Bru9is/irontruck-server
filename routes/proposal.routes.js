@@ -69,4 +69,17 @@ proposalRouter.get('/:proposalId/accept', isAuthenticated, attachCurrentUser, as
     }
 })
 
+proposalRouter.put('/:proposalId/reject', isAuthenticated, attachCurrentUser, async (req, res)  => {
+    try {
+        const { proposalId } = req.params
+        const foundProposal = await Proposal.findOneAndUpdate({_id : proposalId}, {status: 'rejected'}, {new:true} )
+
+        return res.status(200).json(foundProposal)
+
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ msg: JSON.stringify(err) });
+    }
+})
+
 export default proposalRouter
